@@ -1,5 +1,3 @@
-
-import java.io.*;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.JCommander;
 public class Main {
@@ -21,8 +19,8 @@ public class Main {
 	main.run();
     }
     public void run() {
-	System.out.printf("%d %s %s %s \n",
-		key, input, output, mode);
+	Cipher cipher = new Cipher();
+	cipher.print();
     }
     
 }
