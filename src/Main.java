@@ -19,8 +19,8 @@ public class Main {
 	main.run();
     }
     public void run() {
-	Cipher cipher = new Cipher();
-	cipher.print();
+	SBox box = new SBox();
+	System.out.println(box.S("0110", "00"));
     }
     
 }

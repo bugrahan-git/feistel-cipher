@@ -11,9 +11,7 @@ public class Cipher {
     }
 
     public void print() {
-	System.out.printf("%d %d %d\n", this.round, this.blockSize, this.keySize);
-    
-    
+	System.out.printf("%d %d %d\n", this.round, this.blockSize, this.keySize);  
     }
 
 
