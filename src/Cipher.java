@@ -1,5 +1,4 @@
-public class Cipher {
-    
+public class Cipher {    
     private int round;
     private int blockSize;
     private int keySize;
@@ -14,6 +13,7 @@ public class Cipher {
 	System.out.printf("%d %d %d\n", this.round, this.blockSize, this.keySize);  
     }
 
+    
 
 
 }
