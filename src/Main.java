@@ -1,36 +1,48 @@
 import java.io.BufferedReader;
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.JCommander;
 import java.io.FileReader;
 import java.util.Base64;
 import java.lang.StringBuilder;
-public class Main {
-    
-    @Parameter (names={"-K", "-k"})	    
+import java.util.Map;
+import java.util.HashMap;
+
+public class Main {    
     String keyFile;	
-    @Parameter (names={"-I", "-i"})
     String inputFile;
-    @Parameter (names={"-O", "-o"})
     String outputFile;
-    @Parameter (names={"-M", "-m"})
     String mode;
-    
-    public static void main(String ... argv) {
+    boolean isEnc = false;
+
+    public static void main(String ... args) {
 	Main main = new Main();
-	JCommander.newBuilder().addObject(main).build().parse(argv);
-	main.run();
+	Map<Character, String> argv = main.getArgs(args);
+	
+	main.run(argv);
+
     }
     
-    public void run() {
-	String key = readFile(keyFile);
-	String input = readFile(inputFile);
-	String output = readFile(outputFile);
-		
+    public Map<Character, String> getArgs(String ... args) {
+	if(args[0] == "enc")
+	    isEnc = true;
+
+	final Map<Character, String> argv= new HashMap<>();
+	for(int i = 1; i < args.length; i+=2) {
+	    String tmp = args[i];
+	    if(tmp.charAt(0) == '-') 
+		argv.put(tmp.charAt(1), args[i + 1]);
+	}
+	
+	return argv;    
+    }
+
+    public void run(Map<Character, String> args) {
+	String key = readFile(args.get('k'));
+	String input = readFile(args.get('i'));
+	String output = readFile(args.get('o'));
+    
 	System.out.printf("Key: %s\n", key);
 	System.out.printf("Binary Key: %s\n", Base64toBinary(key));
     }
 	
-
     public static String Base64toBinary(String base64Str) {
 	byte[] decodedKey = Base64.getDecoder().decode(base64Str);
 	
@@ -43,6 +55,7 @@ public class Main {
 	
 	return sb.toString();	
     }
+
     public static String readFile(String file) {
 	try {
 	    String fileContent = "";
