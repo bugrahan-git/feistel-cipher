@@ -17,7 +17,8 @@ public class Main {
 	Map<Character, String> argv = main.getArgs(args);
 	
 	main.run(argv);
-
+	
+	FeistelCipher fc = new FeistelCipher(10, 96, 96, "10010001");
     }
     
     public Map<Character, String> getArgs(String ... args) {
