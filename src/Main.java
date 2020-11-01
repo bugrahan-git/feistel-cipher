@@ -41,7 +41,7 @@ public class Main {
 	String output = readFile(args.get('o'));
 	
 	
-	FeistelCipher fc = new FeistelCipher(10, 96, 96, Base64toBinary(key));
+	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key));
     }
 	
     public static String Base64toBinary(String base64Str) {

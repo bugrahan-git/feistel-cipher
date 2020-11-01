@@ -3,13 +3,11 @@ import java.lang.StringBuilder;
 public class FeistelCipher {    
     private int round;
     private int blockSize; 
-    private int keySize; 
     private String key; // Binary string
 
-    public FeistelCipher(int round, int blockSize, int keySize, String key) {
+    public FeistelCipher(int round, int blockSize, String key) {
 	this.round = round;
 	this.blockSize = blockSize;
-	this.keySize = keySize;
 	this.key = key;
     }    
         
