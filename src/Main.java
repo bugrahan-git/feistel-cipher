@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.lang.StringBuilder;
 import java.util.Map;
 import java.util.HashMap;
+import java.math.BigInteger;
 
 public class Main {    
     String keyFile;	
@@ -18,7 +19,6 @@ public class Main {
 	
 	main.run(argv);
 	
-	FeistelCipher fc = new FeistelCipher(10, 96, 96, "10010001");
     }
     
     public Map<Character, String> getArgs(String ... args) {
@@ -39,22 +39,15 @@ public class Main {
 	String key = readFile(args.get('k'));
 	String input = readFile(args.get('i'));
 	String output = readFile(args.get('o'));
-    
-	System.out.printf("Key: %s\n", key);
-	System.out.printf("Binary Key: %s\n", Base64toBinary(key));
+	
+	
+	FeistelCipher fc = new FeistelCipher(10, 96, 96, Base64toBinary(key));
     }
 	
     public static String Base64toBinary(String base64Str) {
-	byte[] decodedKey = Base64.getDecoder().decode(base64Str);
-	
-	StringBuilder sb = new StringBuilder();
-
-	for(int i = 0; i < decodedKey.length; i++) {
-	    String tmp = Integer.toBinaryString(decodedKey[i]);
-	    sb.append(String.format("%8s", tmp).replace(" ", "0"));
-	}
-	
-	return sb.toString();	
+	byte[] decodedBytes = Base64.getDecoder().decode(base64Str);
+	String decodedStr = new String(decodedBytes);	
+	return decodedStr;	
     }
 
     public static String readFile(String file) {

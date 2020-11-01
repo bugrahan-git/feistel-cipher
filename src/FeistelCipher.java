@@ -11,12 +11,7 @@ public class FeistelCipher {
 	this.blockSize = blockSize;
 	this.keySize = keySize;
 	this.key = key;
-    }
-
-    public void print() {
-	System.out.printf("%d %d %d\n", this.round, this.blockSize, this.keySize);  
-    }
-    
+    }    
         
     public String subkeyGeneration(int round) {
 	String shiftedKey = key.substring(round) + key.substring(0, round);
@@ -28,4 +23,28 @@ public class FeistelCipher {
 	return sb.toString();
     }
 
+    // String Ri: 48 Bits long binary string, message
+    // String Ki: 48 Bits long binary string, key
+    public String scramble(String Ri, String Ki) {
+	String Ri_xor_Ki = this.XOR(Ri, Ki);
+	
+	for(int i = 0; i < this.blockSize / 6; i++) {
+	    
+	
+	}
+	return null;
+    }
+    
+    private String XOR(String Ri, String Ki) {
+	StringBuilder sb = new StringBuilder();
+	for(int i = 0; i < Ri.length(); i++) {
+	    if(Ri.charAt(i) == Ki.charAt(i))
+		sb.append("0");
+	    else
+		sb.append("1");
+	}
+
+	return sb.toString();
+	
+    }
 }
