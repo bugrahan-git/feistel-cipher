@@ -8,9 +8,10 @@ public class SBox {
     {11, 8, 12, 7, 1, 14, 2, 13, 6, 15, 0, 9, 10, 4, 5, 3}
     };
     
-    public SBox() {}
-
-    public String S(String mid, String other) {
+    // String str: 6 bits long binary string
+    public String S(String str) {
+	String mid = str.substring(1, 5);
+	String other = str.charAt(0) + str.charAt(5);
 	int midInt = Integer.parseInt(mid, 2);
 	int otherInt = Integer.parseInt(other, 2);
 	return Integer.toBinaryString(this.box[otherInt][midInt]);
