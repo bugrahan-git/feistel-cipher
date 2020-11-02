@@ -101,7 +101,7 @@ public class FeistelCipher {
 	else if(this.mode.equals("cbc"))
 	    return this.CBCEncrypt(message);
 	else if(this.mode.equals("ofb"))
-	    return this.OFBEncrypt(message);
+	    return this.OFB(message);
 	return null;
     }
 
@@ -111,11 +111,11 @@ public class FeistelCipher {
 	else if(this.mode.equals("cbc"))
 	    return this.CBCDecrypt(message);
 	else if(this.mode.equals("ofb"))
-	    return this.OFBDecrypt(message);
+	    return this.OFB(message);
 	return null;
     }
 
-    private String OFBEncrypt(String message) {
+    private String OFB(String message) {
 	StringBuilder sb = new StringBuilder();
 	for(int i = 0; i < this.blockSize; i++)
 	    sb.append("1");
@@ -134,12 +134,7 @@ public class FeistelCipher {
 	}
 
 	return sb.toString();
-    }
-
-    private String OFBDecrypt(String message) {
-	return null;
-    
-    }     
+    }    
 
     private String CBCEncrypt(String message) {
 	StringBuilder sb = new StringBuilder();
@@ -200,10 +195,4 @@ public class FeistelCipher {
 	return sb.toString();	
     } 
 
-    private String CBC(String message) {
-	return null;
-    }
-    private String OFB(String message) {
-	return null;
-    }
 }
