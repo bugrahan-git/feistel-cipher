@@ -16,41 +16,33 @@ public class Main {
     public static void main(String ... args) {
 	Main main = new Main();
 	Map<Character, String> argv = main.getArgs(args);
-	
 	main.run(argv);
 	
     }
     
+    public void run(Map<Character, String> args) {
+	String key = readFile(args.get('k'));
+	String input = readFile(args.get('i'));
+	String output = readFile(args.get('o'));
+		
+	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key));    
+
+    }
+
     public Map<Character, String> getArgs(String ... args) {
-	if(args[0] == "enc")
+	if(args[0].toLowerCase() == "enc")
 	    isEnc = true;
 
 	final Map<Character, String> argv= new HashMap<>();
 	for(int i = 1; i < args.length; i+=2) {
-	    String tmp = args[i];
+	    String tmp = args[i].toLowerCase();
 	    if(tmp.charAt(0) == '-') 
 		argv.put(tmp.charAt(1), args[i + 1]);
 	}
 	
 	return argv;    
     }
-
-    public void run(Map<Character, String> args) {
-	String key = readFile(args.get('k'));
-	String input = readFile(args.get('i'));
-	String output = readFile(args.get('o'));
-	
-	
-	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key));
-	
-    
-	String R1 = input.substring(0, 48);
-	String K1 = fc.subkeyGeneration(1);
-
-	fc.scramble(R1, K1);
-
-    }
-	
+ 
     public static String Base64toBinary(String base64Str) {
 	byte[] decodedBytes = Base64.getDecoder().decode(base64Str);
 	String decodedStr = new String(decodedBytes);	
