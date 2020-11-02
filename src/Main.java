@@ -42,6 +42,18 @@ public class Main {
 	
 	
 	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key));
+	
+    
+	String R1 = input.substring(0, 48);
+	String K1 = fc.subkeyGeneration(1);
+
+    System.out.printf("R1: %s\n", R1);
+	System.out.printf("K1: %s\n", K1);
+	
+
+
+	fc.scramble(R1, K1);
+
     }
 	
     public static String Base64toBinary(String base64Str) {
