@@ -28,7 +28,7 @@ public class FeistelCipher {
     public String scramble(String Ri, String Ki) {
 	String Ri_xor_Ki = this.XOR(Ri, Ki);
 	String[] px = new String[12];
-
+	
 	for(int i = 0; i < 8 ; i++) 
 	    px[i] = Ri_xor_Ki.substring(i*6, (i+1)*6);	
 	
@@ -40,7 +40,14 @@ public class FeistelCipher {
 	for(String str : px) 
 	    sb.append(this.box.S(str));
 	
-	System.out.println(sb.toString());
+
+	for(int i = 0; i < this.blockSize / 4 ; i++) {
+	    char l = sb.charAt(2*i);
+	    char r = sb.charAt(2*i+1);
+	    sb.setCharAt(2*i, r);
+	    sb.setCharAt(2*i+1, l);
+	}
+	
 	return sb.toString();
     }
     
@@ -55,6 +62,5 @@ public class FeistelCipher {
 	}
 
 	return sb.toString();
-	
     }
 }
