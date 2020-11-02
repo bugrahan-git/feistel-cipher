@@ -52,7 +52,6 @@ public class FeistelCipher {
 	
 	return sb.toString();
     }
-    
 
     private String XOR(String Ri, String Ki) {
 	StringBuilder sb = new StringBuilder();
@@ -68,7 +67,7 @@ public class FeistelCipher {
 
     public String encrypt(String message) {
 	if(this.mode.equals("ecb")) 
-	    return this.ECB(message);
+	    return this.ECBEncrypt(message);
 	else if(this.mode.equals("cbc"))
 	    return this.CBC(message);
 	else if(this.mode.equals("ofb"))
@@ -76,10 +75,14 @@ public class FeistelCipher {
 	return null;
     }
 
+    public String decrypt(String message) {
+	if(this.mode.equals("ecb"))
+	    return this.ECBDecrypt(message);
+	return null;
+    }
     
-    private String ECB(String message) {
+    private String ECBEncrypt(String message) {
     	StringBuilder sb = new StringBuilder();
-	
 	/*
 	    Bi: i'th block 
 	    Li: Left half of the i'th block
@@ -89,8 +92,7 @@ public class FeistelCipher {
 	for(int i = 0; i < message.length(); i+=this.blockSize) {
 	    String Bi = message.substring(i, i+this.blockSize);
 	    String Li = Bi.substring(0, this.blockSize/2);
-	    String Ri = Bi.substring(this.blockSize/2, this.blockSize);	
-
+	    String Ri = Bi.substring(this.blockSize/2, this.blockSize);	 
 	    for(int j = 0; j < this.round; j++) {
 		String Ki = this.subkeyGeneration(j);
 		String after_scramble = this.scramble(Ri, Ki);
@@ -99,12 +101,31 @@ public class FeistelCipher {
 		Ri = this.XOR(after_scramble, Li);
 		Li = tmp;
 	    }
-
 	    sb.append(Li).append(Ri);
 	}
 	
 	return sb.toString();
     }
+   
+    private String ECBDecrypt(String message) {
+	StringBuilder sb = new StringBuilder(); 
+	for(int i = 0; i < message.length(); i+= this.blockSize) {
+	    String Bi = message.substring(i, i+this.blockSize);
+	    String Li = Bi.substring(0, this.blockSize/2);
+	    String Ri = Bi.substring(this.blockSize/2, this.blockSize);
+	    for(int j = this.round - 1; j >= 0 ; j--) {
+		String Ki = this.subkeyGeneration(j);
+		String after_scramble = this.scramble(Li, Ki);
+		String tmp = Li;
+		Li = this.XOR(after_scramble, Ri);
+		Ri = tmp;
+	    }
+	    sb.append(Li).append(Ri);
+	}
+
+	return sb.toString();	
+    } 
+
 
     private String CBC(String message) {
 	return null;

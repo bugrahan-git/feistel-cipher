@@ -25,13 +25,13 @@ public class Main {
 	String mode = args.get('m');
     	
     	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
+	String output = fc.decrypt(input);
 
-	String output = fc.encrypt(input); 
-	System.out.println(output);
+	System.out.println(output);	
     }
 
     public Map<Character, String> getArgs(String ... args) {
-	if(args[0].toLowerCase() == "enc")
+	if(args[0].toLowerCase().equals("enc"))
 	    isEnc = true;
 
 	final Map<Character, String> argv= new HashMap<>();
