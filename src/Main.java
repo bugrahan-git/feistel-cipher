@@ -47,9 +47,6 @@ public class Main {
 	String R1 = input.substring(0, 48);
 	String K1 = fc.subkeyGeneration(1);
 
-	System.out.printf("R1: %s\n", R1);
-	System.out.printf("K1: %s\n", K1);
-	
 	fc.scramble(R1, K1);
 
     }

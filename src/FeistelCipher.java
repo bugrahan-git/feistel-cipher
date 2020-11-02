@@ -4,13 +4,13 @@ public class FeistelCipher {
     private int round;
     private int blockSize; 
     private String key; // 96 bits binary string
-    private SBox sbox;
-    
+    private SBox box;
+
     public FeistelCipher(int round, int blockSize, String key) {
 	this.round = round;
 	this.blockSize = blockSize;
 	this.key = key;
-	this.sbox = new SBox();
+	this.box = new SBox();
     }    
         
     public String subkeyGeneration(int round) {
@@ -36,9 +36,9 @@ public class FeistelCipher {
 	    px[i+8] = this.XOR(px[i*2], px[i*2+1]);
 
 	StringBuilder sb = new StringBuilder();
-
-	for(String str : px)
-	    sb.append(this.sbox.S(str));
+	
+	for(String str : px) 
+	    sb.append(this.box.S(str));
 	
 	System.out.println(sb.toString());
 	return sb.toString();
