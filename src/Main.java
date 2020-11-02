@@ -24,8 +24,11 @@ public class Main {
 	String key = readFile(args.get('k'));
 	String input = readFile(args.get('i'));
 	String output = readFile(args.get('o'));
-		
-	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key)); 
+	String mode = args.get('m');
+
+	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
+	
+	fc.encrypt(input);
     }
 
     public Map<Character, String> getArgs(String ... args) {
