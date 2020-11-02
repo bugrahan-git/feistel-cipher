@@ -25,8 +25,13 @@ public class Main {
 	String mode = args.get('m');
     	
     	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
-	String output = fc.decrypt(input);
-
+	
+	String output;
+	if(isEnc)
+	    output = fc.encrypt(input);
+	else
+	    output = fc.decrypt(input);
+	
 	System.out.println(output);	
     }
 
