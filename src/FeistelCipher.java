@@ -64,12 +64,42 @@ public class FeistelCipher {
 
 	return sb.toString();
     }
+     
+    private String FEncrypt(String Bi) {
+	String Li = Bi.substring(0, this.blockSize/2);
+	String Ri = Bi.substring(this.blockSize/2, this.blockSize);
+
+	for(int i = 0; i < this.round; i++) {
+	    String Ki = this.subkeyGeneration(i);
+	    String afterScramble = this.scramble(Ri, Ki);    
+	    String tmp = Ri;
+	    Ri = this.XOR(afterScramble, Li);
+	    Li = tmp;
+	}
+
+	return Li + Ri;
+    }
+
+    private String FDecrypt(String Bi) {
+	String Li = Bi.substring(0, this.blockSize/2);
+	String Ri = Bi.substring(this.blockSize/2, this.blockSize);
+	
+	for(int i = this.round - 1; i >= 0; i--) {
+	    String Ki = this.subkeyGeneration(i);
+	    String afterScramble = this.scramble(Li, Ki);
+	    String tmp = Li;
+	    Li = this.XOR(afterScramble, Ri);
+	    Ri = tmp;
+	}
+	
+	return Li + Ri;
+    }
 
     public String encrypt(String message) {
 	if(this.mode.equals("ecb")) 
 	    return this.ECBEncrypt(message);
 	else if(this.mode.equals("cbc"))
-	    return this.CBC(message);
+	    return this.CBCEncrypt(message);
 	else if(this.mode.equals("ofb"))
 	    return this.OFB(message);
 	return null;
@@ -78,32 +108,58 @@ public class FeistelCipher {
     public String decrypt(String message) {
 	if(this.mode.equals("ecb"))
 	    return this.ECBDecrypt(message);
+	else if(this.mode.equals("cbc"))
+	    return this.CBCDecrypt(message);
+
 	return null;
     }
-    
-    private String ECBEncrypt(String message) {
-    	StringBuilder sb = new StringBuilder();
-	/*
-	    Bi: i'th block 
-	    Li: Left half of the i'th block
-	    Ri: Right half of the i'th block 
-	 */
 
+
+    private String CBCEncrypt(String message) {
+	StringBuilder sb = new StringBuilder();
+	for(int i = 0; i < this.blockSize; i++)
+	    sb.append("1");
+	
+	String Vinit = sb.toString();
+	sb.delete(0, sb.length());
 	for(int i = 0; i < message.length(); i+=this.blockSize) {
 	    String Bi = message.substring(i, i+this.blockSize);
-	    String Li = Bi.substring(0, this.blockSize/2);
-	    String Ri = Bi.substring(this.blockSize/2, this.blockSize);	 
-	    for(int j = 0; j < this.round; j++) {
-		String Ki = this.subkeyGeneration(j);
-		String after_scramble = this.scramble(Ri, Ki);
-
-		String tmp = Ri;
-		Ri = this.XOR(after_scramble, Li);
-		Li = tmp;
-	    }
-	    sb.append(Li).append(Ri);
+	    Bi = this.XOR(Vinit, Bi);
+	    Vinit = this.FEncrypt(Bi);
+	    sb.append(Vinit);    
 	}
-	
+
+	return sb.toString();
+    }
+    
+    private String CBCDecrypt(String message) {
+	StringBuilder sb = new StringBuilder();
+	for(int i = 0; i < this.blockSize; i++) 
+	    sb.append("1");
+
+	String Vinit = sb.toString();
+
+	sb.delete(0, sb.length());
+	for(int i = 0; i < message.length(); i+=this.blockSize) {
+	    String Bi = message.substring(i, i+this.blockSize);
+	    String tmp = Bi;
+	    Bi = this.FDecrypt(Bi);
+	    Bi = this.XOR(Vinit, Bi);	
+	    sb.append(Bi);
+	    Vinit = tmp;    
+	}
+    
+	return sb.toString();
+    }
+
+    private String ECBEncrypt(String message) {
+    	StringBuilder sb = new StringBuilder();
+	for(int i = 0; i < message.length(); i+=this.blockSize) {
+	    String Bi = message.substring(i, i+this.blockSize);
+	    Bi = this.FEncrypt(Bi); 
+	    sb.append(Bi);
+	}
+
 	return sb.toString();
     }
    
@@ -111,21 +167,12 @@ public class FeistelCipher {
 	StringBuilder sb = new StringBuilder(); 
 	for(int i = 0; i < message.length(); i+= this.blockSize) {
 	    String Bi = message.substring(i, i+this.blockSize);
-	    String Li = Bi.substring(0, this.blockSize/2);
-	    String Ri = Bi.substring(this.blockSize/2, this.blockSize);
-	    for(int j = this.round - 1; j >= 0 ; j--) {
-		String Ki = this.subkeyGeneration(j);
-		String after_scramble = this.scramble(Li, Ki);
-		String tmp = Li;
-		Li = this.XOR(after_scramble, Ri);
-		Ri = tmp;
-	    }
-	    sb.append(Li).append(Ri);
+	    Bi = this.FDecrypt(Bi);   
+	    sb.append(Bi);
 	}
 
 	return sb.toString();	
     } 
-
 
     private String CBC(String message) {
 	return null;
