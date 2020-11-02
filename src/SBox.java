@@ -11,7 +11,7 @@ public class SBox {
     // String str: 6 bits long binary string
     public String S(String str) {
 	String mid = str.substring(1, 5);
-	String other = str.charAt(0) + str.charAt(5);
+	String other = "" + str.charAt(0) + str.charAt(5);
 	int midInt = Integer.parseInt(mid, 2);
 	int otherInt = Integer.parseInt(other, 2);
 	return Integer.toBinaryString(this.box[otherInt][midInt]);

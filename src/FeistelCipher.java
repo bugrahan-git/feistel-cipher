@@ -34,8 +34,14 @@ public class FeistelCipher {
 	
 	for(int i = 0; i < 4; i++) 
 	    px[i+8] = this.XOR(px[i*2], px[i*2+1]);
-		
-	return null;
+
+	StringBuilder sb = new StringBuilder();
+
+	for(String str : px)
+	    sb.append(this.sbox.S(str));
+	
+	System.out.println(sb.toString());
+	return sb.toString();
     }
     
 
