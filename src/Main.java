@@ -17,18 +17,17 @@ public class Main {
 	Main main = new Main();
 	Map<Character, String> argv = main.getArgs(args);
 	main.run(argv);
-	
     }
     
     public void run(Map<Character, String> args) {
 	String key = readFile(args.get('k'));
 	String input = readFile(args.get('i'));
-	String output = readFile(args.get('o'));
 	String mode = args.get('m');
+    	
+    	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
 
-	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
-	
-	fc.encrypt(input);
+	String output = fc.encrypt(input); 
+	System.out.println(output);
     }
 
     public Map<Character, String> getArgs(String ... args) {

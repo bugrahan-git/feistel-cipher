@@ -66,14 +66,16 @@ public class FeistelCipher {
 	return sb.toString();
     }
 
-    public void encrypt(String message) {
+    public String encrypt(String message) {
 	if(this.mode.equals("ecb")) 
-	    System.out.println("Encrypted text: " + this.ECB(message));
+	    return this.ECB(message);
 	else if(this.mode.equals("cbc"))
-	    this.CBC(message);
+	    return this.CBC(message);
 	else if(this.mode.equals("ofb"))
-	    this.OFB(message);
+	    return this.OFB(message);
+	return null;
     }
+
     
     private String ECB(String message) {
     	StringBuilder sb = new StringBuilder();
@@ -104,6 +106,10 @@ public class FeistelCipher {
 	return sb.toString();
     }
 
-    private void CBC(String message) {}
-    private void OFB(String message) {}
+    private String CBC(String message) {
+	return null;
+    }
+    private String OFB(String message) {
+	return null;
+    }
 }
