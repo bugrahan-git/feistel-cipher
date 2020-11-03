@@ -4,7 +4,8 @@ import java.util.Base64;
 import java.lang.StringBuilder;
 import java.util.Map;
 import java.util.HashMap;
-import java.math.BigInteger;
+import java.io.File;
+import java.io.FileWriter;
 
 public class Main {    
     String keyFile;	
@@ -32,7 +33,7 @@ public class Main {
 	else
 	    output = fc.decrypt(input);
 	
-	System.out.println(output);	
+	writeFile(args.get('o'), output); 
     }
 
     public Map<Character, String> getArgs(String ... args) {
@@ -57,21 +58,32 @@ public class Main {
 
     public static String readFile(String file) {
 	try {
-	    String fileContent = "";
+	    StringBuilder sb = new StringBuilder();
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
             while (line != null) { 
-		fileContent += line;
+		sb.append(line);
                 line = br.readLine();
             }
-            br.close();
+            
+	    br.close();
+            return sb.toString();
 
-            return fileContent;
-
-            } catch (Exception e) {
+        } catch (Exception e) {
                 System.out.print("Error while reading " + file + "\n");
-            }
+	}
 
-            return null;
+	return null;
     }    
+
+    public static void writeFile(String file, String output){
+        try {
+            File outputF = new File(file);
+            FileWriter writer = new FileWriter(outputF);
+            writer.write(output);
+            writer.close();
+        } catch(Exception e){
+            System.out.print("Error while writing to " + file + "\n");
+        }
+    }
 }

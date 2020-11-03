@@ -94,8 +94,22 @@ public class FeistelCipher {
 	
 	return Li + Ri;
     }
+    
+    /*Method to check if message is in the desired block size*/
+    private String messageChecker(String message) {
+	if(message.length() % this.blockSize != 0) {
+	    StringBuilder sb = new StringBuilder(message);
+	    while(sb.length() % 96 != 0)
+	       sb.append("0");	
+	    message = sb.toString();
+	}
+
+	return message;
+
+    }
 
     public String encrypt(String message) {
+	message = messageChecker(message);
 	if(this.mode.equals("ecb")) 
 	    return this.ECBEncrypt(message);
 	else if(this.mode.equals("cbc"))
@@ -106,6 +120,7 @@ public class FeistelCipher {
     }
 
     public String decrypt(String message) {
+	message = messageChecker(message);
 	if(this.mode.equals("ecb"))
 	    return this.ECBDecrypt(message);
 	else if(this.mode.equals("cbc"))
