@@ -110,22 +110,22 @@ public class FeistelCipher {
 
     public String encrypt(String message) {
 	message = messageChecker(message);
-	if(this.mode.equals("ecb")) 
+	if(this.mode.equals("ECB")) 
 	    return this.ECBEncrypt(message);
-	else if(this.mode.equals("cbc"))
+	else if(this.mode.equals("CBC"))
 	    return this.CBCEncrypt(message);
-	else if(this.mode.equals("ofb"))
+	else if(this.mode.equals("OFB"))
 	    return this.OFB(message);
 	return null;
     }
 
     public String decrypt(String message) {
 	message = messageChecker(message);
-	if(this.mode.equals("ecb"))
+	if(this.mode.equals("ECB"))
 	    return this.ECBDecrypt(message);
-	else if(this.mode.equals("cbc"))
+	else if(this.mode.equals("CBC"))
 	    return this.CBCDecrypt(message);
-	else if(this.mode.equals("ofb"))
+	else if(this.mode.equals("OFB"))
 	    return this.OFB(message);
 	return null;
     }

@@ -21,9 +21,9 @@ public class BBMcrypt {
     }
     
     public void run(Map<Character, String> args) {
-	String key = readFile(args.get('k'));
-	String input = readFile(args.get('i'));
-	String mode = args.get('m');
+	String key = readFile(args.get('K'));
+	String input = readFile(args.get('I'));
+	String mode = args.get('M');
     	
     	FeistelCipher fc = new FeistelCipher(10, 96, Base64toBinary(key), mode); 
 	
@@ -33,16 +33,16 @@ public class BBMcrypt {
 	else
 	    output = fc.decrypt(input);
 	
-	writeFile(args.get('o'), output); 
+	writeFile(args.get('O'), output); 
     }
 
     public Map<Character, String> getArgs(String ... args) {
-	if(args[0].toLowerCase().equals("enc"))
+	if(args[0].equals("enc"))
 	    isEnc = true;
 
 	final Map<Character, String> argv= new HashMap<>();
 	for(int i = 1; i < args.length; i+=2) {
-	    String tmp = args[i].toLowerCase();
+	    String tmp = args[i];
 	    if(tmp.charAt(0) == '-') 
 		argv.put(tmp.charAt(1), args[i + 1]);
 	}
