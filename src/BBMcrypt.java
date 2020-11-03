@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.io.File;
 import java.io.FileWriter;
 
-public class Main {    
+public class BBMcrypt {    
     String keyFile;	
     String inputFile;
     String outputFile;
@@ -15,7 +15,7 @@ public class Main {
     boolean isEnc = false;
 
     public static void main(String ... args) {
-	Main main = new Main();
+	BBMcrypt main = new BBMcrypt();
 	Map<Character, String> argv = main.getArgs(args);
 	main.run(argv);
     }
