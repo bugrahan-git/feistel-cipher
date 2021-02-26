@@ -1,4 +1,4 @@
-# BBM465-01
+# Feistel Cipher
 
 ## Compile
 `javac Main.java`
